@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\v1\Admin\CategoryController;
+use App\Http\Controllers\Api\v1\Admin\ColorController;
+use App\Http\Controllers\Api\v1\Admin\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,4 +21,6 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::apiResource('categories', 'App\Http\Controllers\Api\v1\CategoryController');
+Route::apiResource('admin/categories', CategoryController::class);
+Route::apiResource('admin/colors', ColorController::class);
+Route::apiResource('admin/products', ProductController::class);

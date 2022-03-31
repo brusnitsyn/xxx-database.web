@@ -9,23 +9,17 @@ class Category extends Model
 {
     use HasFactory;
 
-    /**
-     * Get the parent that owns the Category
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
+    protected $fillable = [
+        'name',
+    ];
 
     /**
      * Get all of the children for the Category
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function children(): HasMany
+    public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id');
+        return $this->hasMany(CategoryObject::class, 'parent_id');
     }
 }

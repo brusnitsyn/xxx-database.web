@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api\v1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
+use App\Http\Requests\Admin\Products\ProductStoreRequest;
+use App\Http\Resources\ProductResource;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return CategoryResource::collection(Category::all());
+        return ProductResource::collection(Product::all());
     }
 
     /**
@@ -25,9 +26,21 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        //
+        $createdProduct = Product::create([
+            'name' => $request->name,
+            'manufacturer' => $request->manufacturer,
+            'material' => $request->material,
+            'weight' => $request->weight,
+            'article' => $request->article,
+            'cost' => $request->cost,
+            'description' => $request->description,
+            'image_url' => $request->image_url,
+            'category_id' => $request->category['id'],
+        ]);
+
+        return new ProductResource($createdProduct);
     }
 
     /**

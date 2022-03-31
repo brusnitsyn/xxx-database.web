@@ -18,20 +18,20 @@ return new class extends Migration
             $table->string('name', 320);
             $table->string('manufacturer', 100)->nullable();
             $table->string('material', 100);
-            $table->decimal('weight', 4, 2)->nullable();
+            $table->decimal('weight', 5, 2)->nullable();
             $table->string('article', 100)->nullable();
-            $table->decimal('cost', 8, 2)->nullable();
+            $table->decimal('cost', 9, 2)->nullable();
             $table->longText('description');
             $table->string('image_url', 512)->nullable();
             $table->timestamps();
 
             $table->foreignId('category_id')
-            ->constrained('categories')
-            ->onDelete('cascade');
+                ->constrained('category_objects')
+                ->onDelete('cascade');
 
-            $table->foreignId('color_id')
-            ->constrained('colors')
-            ->onDelete('cascade');
+            // $table->foreignId('color_id')
+            //     ->constrained('colors')
+            //     ->onDelete('cascade');
         });
     }
 
