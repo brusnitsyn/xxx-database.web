@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Api\v1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Products\ProductStoreRequest;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\ImageResource;
 use App\Models\ImageUpload;
-use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return ProductResource::collection(Product::all());
+        //
     }
 
     /**
@@ -27,22 +25,26 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductStoreRequest $request)
+    public function store(Request $request)
     {
-        $request->validated();
-        $createdProduct = Product::create([
-            'name' => $request->name,
-            'manufacturer' => $request->manufacturer,
-            'material' => $request->material,
-            'weight' => $request->weight,
-            'article' => $request->article,
-            'cost' => $request->cost,
-            'description' => $request->description,
-            'image_url' => $request->image_url,
-            'category_id' => $request->category['id'],
+        $request->validate([
+            'file' => 'required',
         ]);
 
-        return new ProductResource($createdProduct);
+        //Save the uploaded file from the request to the uploads storage.  Media Library will read them from here when the post is saved
+        $path = $request->file('file')->store('uploads');
+        $file = $request->file('file');
+
+        $image = [
+            'filename' => $file->getClientOriginalName(),
+            'path' => $path
+        ];
+
+        $imageModel = ImageUpload::create($image);
+
+        //Return the name of the file after upload, and the original name
+        //These will be appended as hidden inputs to the posts form so that they can be processed after the post is saved
+        return new ImageResource($imageModel);
     }
 
     /**
@@ -53,7 +55,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**

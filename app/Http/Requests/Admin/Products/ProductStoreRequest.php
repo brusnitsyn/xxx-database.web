@@ -17,7 +17,6 @@ class ProductStoreRequest extends FormRequest
             'article' => 'max:100',
             'cost' => 'numeric|between:0,99999999.99',
             'description' => 'required|max:1024',
-            'image_url' => 'max:512',
             'category' => 'required'
         ];
     }

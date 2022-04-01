@@ -22,12 +22,16 @@ return new class extends Migration
             $table->string('article', 100)->nullable();
             $table->decimal('cost', 9, 2)->nullable();
             $table->longText('description');
-            $table->string('image_url', 512)->nullable();
+            $table->string('image_url');
             $table->timestamps();
 
             $table->foreignId('category_id')
                 ->constrained('category_objects')
                 ->onDelete('cascade');
+
+            // $table->foreignId('image_id')
+            //     ->constrained('image_uploads')
+            //     ->onDelete('cascade');
 
             // $table->foreignId('color_id')
             //     ->constrained('colors')

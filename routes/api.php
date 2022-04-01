@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\v1\Admin\CategoryController;
 use App\Http\Controllers\Api\v1\Admin\ColorController;
+use App\Http\Controllers\Api\v1\Admin\ImageController;
 use App\Http\Controllers\Api\v1\Admin\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +25,4 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('admin/categories', CategoryController::class);
 Route::apiResource('admin/colors', ColorController::class);
 Route::apiResource('admin/products', ProductController::class);
+Route::apiResource('admin/products/image', ImageController::class);
