@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Products\ProductStoreRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\ImageUpload;
 use App\Models\Product;
+use App\Models\ProductColor;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -18,7 +19,16 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return ProductResource::collection(Product::all());
+        $products = Product::all();
+        // $refactoringColors = array();
+        // foreach ($products as $product) {
+        //     foreach ($product->colors as $color) {
+        //         array_push($refactoringColors, $color->color);
+        //     }
+        // }
+        // $products->colors = array();
+        // array_push($products->colors, $refactoringColors);
+        return ProductResource::collection($products);
     }
 
     /**
@@ -30,6 +40,7 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request)
     {
         $request->validated();
+
         $createdProduct = Product::create([
             'name' => $request->name,
             'manufacturer' => $request->manufacturer,
@@ -41,6 +52,15 @@ class ProductController extends Controller
             'image_url' => $request->image_url,
             'category_id' => $request->category['id'],
         ]);
+
+        if ($request->colors) {
+            foreach ($request->colors as $color) {
+                // $productColors = new ProductColor;
+                // $productColors->product_id = $createdProduct->id;
+                // $productColors->color_id = $color['id'];
+                // $productColors->save();
+            }
+        }
 
         return new ProductResource($createdProduct);
     }

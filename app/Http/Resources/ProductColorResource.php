@@ -16,7 +16,7 @@ class ProductColorResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'color' => ColorResource::make($this->color_id),
+            'color' => ColorResource::make($this->color),
             'product_id' => $this->product_id,
         ];
     }

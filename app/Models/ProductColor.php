@@ -10,7 +10,12 @@ class ProductColor extends Model
     use HasFactory;
 
     protected $fillable = [
+        'product_id',
         'color_id',
-        'product_id'
     ];
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
+    }
 }

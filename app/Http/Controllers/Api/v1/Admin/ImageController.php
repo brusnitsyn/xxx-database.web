@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ImageResource;
 use App\Models\ImageUpload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -28,23 +29,20 @@ class ImageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required',
+            'file' => 'required|file|image',
         ]);
 
-        //Save the uploaded file from the request to the uploads storage.  Media Library will read them from here when the post is saved
-        $path = $request->file('file')->store('uploads');
         $file = $request->file('file');
+        $filename = md5_file($file);
 
-        $image = [
-            'filename' => $file->getClientOriginalName(),
-            'path' => $path
-        ];
+        Storage::putFileAs('public/products/images', $file, $filename, 'public');
 
-        $imageModel = ImageUpload::create($image);
+        $image = new ImageUpload;
+        $image->filename = $filename . '.' . $file->getClientOriginalExtension();
+        $image->path = 'storage/products/image/' . $image->filename;
+        $image->save();
 
-        //Return the name of the file after upload, and the original name
-        //These will be appended as hidden inputs to the posts form so that they can be processed after the post is saved
-        return new ImageResource($imageModel);
+        return new ImageResource($image);
     }
 
     /**
@@ -55,7 +53,6 @@ class ImageController extends Controller
      */
     public function show($id)
     {
-
     }
 
     /**

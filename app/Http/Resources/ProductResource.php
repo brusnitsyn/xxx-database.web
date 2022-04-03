@@ -22,6 +22,7 @@ class ProductResource extends JsonResource
             'weight' => $this->weight,
             'article' => $this->article,
             'cost' => $this->cost,
+            'image_url' => $this->image_url,
             'description' => $this->description,
             'category' => CategoryObjectResource::make($this->category),
             'colors' => ProductColorResource::collection($this->colors),
