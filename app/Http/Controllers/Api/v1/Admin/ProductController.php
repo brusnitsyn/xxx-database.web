@@ -20,14 +20,6 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        // $refactoringColors = array();
-        // foreach ($products as $product) {
-        //     foreach ($product->colors as $color) {
-        //         array_push($refactoringColors, $color->color);
-        //     }
-        // }
-        // $products->colors = array();
-        // array_push($products->colors, $refactoringColors);
         return ProductResource::collection($products);
     }
 
@@ -55,10 +47,10 @@ class ProductController extends Controller
 
         if ($request->colors) {
             foreach ($request->colors as $color) {
-                // $productColors = new ProductColor;
-                // $productColors->product_id = $createdProduct->id;
-                // $productColors->color_id = $color['id'];
-                // $productColors->save();
+                $productColors = new ProductColor;
+                $productColors->product_id = $createdProduct->id;
+                $productColors->color_id = $color['id'];
+                $productColors->save();
             }
         }
 

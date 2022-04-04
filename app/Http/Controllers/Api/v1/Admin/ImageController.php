@@ -33,13 +33,13 @@ class ImageController extends Controller
         ]);
 
         $file = $request->file('file');
-        $filename = md5_file($file);
+        $filename = md5_file($file) . '.' . $file->getClientOriginalExtension();
 
         Storage::putFileAs('public/products/images', $file, $filename, 'public');
 
         $image = new ImageUpload;
-        $image->filename = $filename . '.' . $file->getClientOriginalExtension();
-        $image->path = 'storage/products/image/' . $image->filename;
+        $image->filename = $filename;
+        $image->path = 'storage/products/images/' . $image->filename;
         $image->save();
 
         return new ImageResource($image);
